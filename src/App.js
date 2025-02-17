@@ -35,7 +35,7 @@ function App() {
       
       </div>
         <p className='label'> Chandan </p>
-      <textarea onChange={(e)=>{setQuestion(e.target.value)}}/>
+      <textarea value={question} onChange={(e)=>{setQuestion(e.target.value)}}/>
       <button onClick={submitHandler}> send </button>
     </div>
     <div className='box'>
