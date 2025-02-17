@@ -1,23 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+
 
 function App() {
+
+  const [question,setQuestion] = useState('');
+  const [response,setResponse] = useState('');
+
+  const submitHandler =(e)=>{
+     e.preventDefault();
+     console.log(question)
+     axios.post('https://gemini-app-iota-two.vercel.app/getResponse',{
+      question:question
+     })
+     .then(res=>{
+      console.log(res.data.response);
+      setResponse(res.data.response);
+     })
+     .catch(err=>{
+      console.log(err)
+     })
+  }
+  const speakHandler =()=>{
+    const a = new SpeechSynthesisUtterance(response);
+    window.speechSynthesis.speak(a);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='box'>
+      <div className='profile-pic'>
+      <img className='pic' alt='profile pic' src={require('../src/assets/user.jpg')}/>
+      
+      </div>
+        <p className='label'> Chandan </p>
+      <textarea onChange={(e)=>{setQuestion(e.target.value)}}/>
+      <button onClick={submitHandler}> send </button>
+    </div>
+    <div className='box'>
+    <div className='profile-pic'>
+      <img className='pic' alt='profile pic' src={require('../src/assets/bhut.jpg')}/>
+
+      </div>
+      <p className='label'> Mechho Bhoot </p>
+      <textarea value={response}/>
+      <button onClick={speakHandler}> speak </button>
+    
+    </div>
+      
     </div>
   );
 }
